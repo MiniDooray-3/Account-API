@@ -26,6 +26,8 @@ public class User {
 
     private String password;
 
+    private String status;
+
     @Column(name = "last_login")
     private LocalDate lastLogin;
 }

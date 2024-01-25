@@ -10,4 +10,7 @@ public interface UserService {
     void createUser(CreateUserRequest createUserRequest);
 
     void deleteUser(String id);
+
+    void updateInactiveUserStatus();
+
 }

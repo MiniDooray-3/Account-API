@@ -6,6 +6,9 @@ import com.nhnacademy.edu.minidooray.AccountApi.exception.UserNotExistException;
 import com.nhnacademy.edu.minidooray.AccountApi.model.request.CreateUserRequest;
 import com.nhnacademy.edu.minidooray.AccountApi.model.request.LoginUserRequest;
 import com.nhnacademy.edu.minidooray.AccountApi.repository.UserRepository;
+import java.time.LocalDate;
+import java.util.List;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -17,11 +20,11 @@ public class UserServiceImpl implements UserService {
         this.userRepository = userRepository;
     }
 
-
     @Override
-    @Transactional(readOnly = true)
+    @Transactional
     public void login(LoginUserRequest userRequest) {
-        userRepository.findByIdAndPassword(userRequest.getId(), userRequest.getPassword()).orElseThrow();
+        userRepository.findByIdAndPasswordAndStatus(userRequest.getId(), userRequest.getPassword(), "가입");
+        userRepository.updateLastLoginDate(userRequest.getId(), LocalDate.now());
     }
 
     @Override
@@ -32,7 +35,7 @@ public class UserServiceImpl implements UserService {
             throw new UserAlreadyExsitException();
         }
         User user = new User(createUserRequest.getId(), createUserRequest.getEmail(), createUserRequest.getPassword(),
-                null);
+                "가입", null);
         userRepository.save(user);
     }
 
@@ -43,6 +46,17 @@ public class UserServiceImpl implements UserService {
         if (!before) {
             throw new UserNotExistException();
         }
-        userRepository.deleteById(id);
+        userRepository.updateUserStatus(id, "탈퇴");
+    }
+
+    @Override
+    @Scheduled(cron = "0 0 1 * * ?")
+    public void updateInactiveUserStatus() {
+        LocalDate twoYearsAgo = LocalDate.now().minusYears(2);
+        List<User> inactiveUsers = userRepository.findByLastLoginBeforeAndStatus(twoYearsAgo, "가입");
+
+        for (User user : inactiveUsers) {
+            userRepository.updateUserStatus(user.getId(), "휴면");
+        }
     }
 }

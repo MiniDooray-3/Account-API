@@ -23,7 +23,8 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     public void login(LoginUserRequest userRequest) {
-        userRepository.findByIdAndPasswordAndStatus(userRequest.getId(), userRequest.getPassword(), "가입");
+        userRepository.findByIdAndPasswordAndStatus(userRequest.getId(), userRequest.getPassword(), "가입").orElseThrow(
+                UserNotExistException::new);
         userRepository.updateLastLoginDate(userRequest.getId(), LocalDate.now());
     }
 

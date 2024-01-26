@@ -8,10 +8,10 @@ import lombok.Value;
 public class LoginUserRequest {
     @NotBlank
     @Size(max = 10)
-    private String id;
+    private String userId;
 
     @NotBlank
     @Size(min = 4, max = 20)
-    private String password;
+    private String userPassword;
 
 }

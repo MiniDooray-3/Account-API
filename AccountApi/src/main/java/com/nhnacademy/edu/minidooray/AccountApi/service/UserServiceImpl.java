@@ -8,6 +8,7 @@ import com.nhnacademy.edu.minidooray.AccountApi.model.request.LoginUserRequest;
 import com.nhnacademy.edu.minidooray.AccountApi.repository.UserRepository;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -59,5 +60,10 @@ public class UserServiceImpl implements UserService {
         for (User user : inactiveUsers) {
             userRepository.updateUserStatus(user.getId(), "휴면");
         }
+    }
+
+    @Override
+    public Optional<User> getUser(String id) {
+        return userRepository.findById(id);
     }
 }

@@ -1,10 +1,13 @@
 package com.nhnacademy.edu.minidooray.AccountApi.controller;
 
 import static org.hamcrest.Matchers.containsString;
+import static org.hamcrest.Matchers.equalTo;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -139,5 +142,16 @@ class UserControllerTest {
         mockMvc.perform(delete("/api/accounts/{id}", "test"))
                 .andExpect(status().isUnauthorized())
                 .andExpect(content().string(containsString("존재하지 않는 유저 입니다.")));
+    }
+
+    @Test
+    @DisplayName("유저 조회")
+    void testhasAccount() throws Exception {
+        given(userRepository.findById("test")).willReturn(Optional.empty());
+
+        mockMvc.perform(get("/api/accounts/{id}", "test"))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$.hasAccount", equalTo(false)));
     }
 }

@@ -1,13 +1,13 @@
-package com.nhnacademy.edu.minidooray.AccountApi.controller;
+package com.nhnacademy.edu.minidooray.accountapi.controller;
 
 
-import com.nhnacademy.edu.minidooray.AccountApi.exception.UserAlreadyExsitException;
-import com.nhnacademy.edu.minidooray.AccountApi.exception.UserNotExistException;
-import com.nhnacademy.edu.minidooray.AccountApi.exception.ValidationFailedException;
-import com.nhnacademy.edu.minidooray.AccountApi.model.request.CreateUserRequest;
-import com.nhnacademy.edu.minidooray.AccountApi.model.request.LoginUserRequest;
-import com.nhnacademy.edu.minidooray.AccountApi.model.response.hasAccountResponse;
-import com.nhnacademy.edu.minidooray.AccountApi.service.UserService;
+import com.nhnacademy.edu.minidooray.accountapi.exception.UserAlreadyExsitException;
+import com.nhnacademy.edu.minidooray.accountapi.exception.UserNotExistException;
+import com.nhnacademy.edu.minidooray.accountapi.exception.ValidationFailedException;
+import com.nhnacademy.edu.minidooray.accountapi.model.request.CreateUserRequest;
+import com.nhnacademy.edu.minidooray.accountapi.model.request.LoginUserRequest;
+import com.nhnacademy.edu.minidooray.accountapi.model.response.hasAccountResponse;
+import com.nhnacademy.edu.minidooray.accountapi.service.UserService;
 import javax.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

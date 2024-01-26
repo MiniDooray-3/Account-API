@@ -1,11 +1,11 @@
-package com.nhnacademy.edu.minidooray.AccountApi.service;
+package com.nhnacademy.edu.minidooray.accountapi.service;
 
-import com.nhnacademy.edu.minidooray.AccountApi.domain.User;
-import com.nhnacademy.edu.minidooray.AccountApi.exception.UserAlreadyExsitException;
-import com.nhnacademy.edu.minidooray.AccountApi.exception.UserNotExistException;
-import com.nhnacademy.edu.minidooray.AccountApi.model.request.CreateUserRequest;
-import com.nhnacademy.edu.minidooray.AccountApi.model.request.LoginUserRequest;
-import com.nhnacademy.edu.minidooray.AccountApi.repository.UserRepository;
+import com.nhnacademy.edu.minidooray.accountapi.domain.User;
+import com.nhnacademy.edu.minidooray.accountapi.exception.UserAlreadyExsitException;
+import com.nhnacademy.edu.minidooray.accountapi.exception.UserNotExistException;
+import com.nhnacademy.edu.minidooray.accountapi.model.request.CreateUserRequest;
+import com.nhnacademy.edu.minidooray.accountapi.model.request.LoginUserRequest;
+import com.nhnacademy.edu.minidooray.accountapi.repository.UserRepository;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;

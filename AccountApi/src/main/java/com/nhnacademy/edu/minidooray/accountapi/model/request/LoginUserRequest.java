@@ -1,4 +1,4 @@
-package com.nhnacademy.edu.minidooray.AccountApi.model.request;
+package com.nhnacademy.edu.minidooray.accountapi.model.request;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;

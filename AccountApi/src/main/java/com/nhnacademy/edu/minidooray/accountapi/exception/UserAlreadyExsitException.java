@@ -1,4 +1,4 @@
-package com.nhnacademy.edu.minidooray.AccountApi.exception;
+package com.nhnacademy.edu.minidooray.accountapi.exception;
 
 public class UserAlreadyExsitException extends RuntimeException {
     public UserAlreadyExsitException() {

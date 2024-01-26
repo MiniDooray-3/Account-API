@@ -1,7 +1,7 @@
-package com.nhnacademy.edu.minidooray.AccountApi.repository;
+package com.nhnacademy.edu.minidooray.accountapi.repository;
 
 
-import com.nhnacademy.edu.minidooray.AccountApi.domain.User;
+import com.nhnacademy.edu.minidooray.accountapi.domain.User;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;

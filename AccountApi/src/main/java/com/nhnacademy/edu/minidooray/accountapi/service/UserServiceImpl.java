@@ -1,10 +1,12 @@
 package com.nhnacademy.edu.minidooray.accountapi.service;
 
 import com.nhnacademy.edu.minidooray.accountapi.domain.User;
+import com.nhnacademy.edu.minidooray.accountapi.exception.LoginFailedException;
 import com.nhnacademy.edu.minidooray.accountapi.exception.UserAlreadyExsitException;
 import com.nhnacademy.edu.minidooray.accountapi.exception.UserNotExistException;
 import com.nhnacademy.edu.minidooray.accountapi.model.request.CreateUserRequest;
 import com.nhnacademy.edu.minidooray.accountapi.model.request.LoginUserRequest;
+import com.nhnacademy.edu.minidooray.accountapi.model.response.UserResponse;
 import com.nhnacademy.edu.minidooray.accountapi.repository.UserRepository;
 import java.time.LocalDate;
 import java.util.List;
@@ -24,10 +26,11 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     public void login(LoginUserRequest userRequest) {
-        User user = userRepository.findByIdAndPasswordAndStatus(userRequest.getUserId(), userRequest.getUserPassword(),
-                        "가입")
-                .orElseThrow(
-                        UserNotExistException::new);
+        UserResponse user =
+                userRepository.findByIdAndPasswordAndStatus(userRequest.getUserId(), userRequest.getUserPassword(),
+                                "가입")
+                        .orElseThrow(
+                                LoginFailedException::new);
         userRepository.updateLastLoginDate(user.getId(), LocalDate.now());
     }
 
@@ -57,9 +60,9 @@ public class UserServiceImpl implements UserService {
     @Scheduled(cron = "0 0 1 * * ?")
     public void updateInactiveUserStatus() {
         LocalDate twoYearsAgo = LocalDate.now().minusYears(2);
-        List<User> inactiveUsers = userRepository.findByLastLoginBeforeAndStatus(twoYearsAgo, "가입");
+        List<UserResponse> inactiveUsers = userRepository.findByLastLoginBeforeAndStatus(twoYearsAgo, "가입");
 
-        for (User user : inactiveUsers) {
+        for (UserResponse user : inactiveUsers) {
             userRepository.updateUserStatus(user.getId(), "휴면");
         }
     }

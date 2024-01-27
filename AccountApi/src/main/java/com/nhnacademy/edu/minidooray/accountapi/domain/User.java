@@ -1,4 +1,4 @@
-package com.nhnacademy.edu.minidooray.AccountApi.domain;
+package com.nhnacademy.edu.minidooray.accountapi.domain;
 
 import java.time.LocalDate;
 import javax.persistence.Column;
@@ -26,4 +26,5 @@ public class User {
 
     @Column(name = "last_login")
     private LocalDate lastLogin;
+
 }

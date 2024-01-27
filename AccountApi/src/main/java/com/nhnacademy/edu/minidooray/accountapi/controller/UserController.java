@@ -6,7 +6,7 @@ import com.nhnacademy.edu.minidooray.accountapi.exception.UserNotExistException;
 import com.nhnacademy.edu.minidooray.accountapi.exception.ValidationFailedException;
 import com.nhnacademy.edu.minidooray.accountapi.model.request.CreateUserRequest;
 import com.nhnacademy.edu.minidooray.accountapi.model.request.LoginUserRequest;
-import com.nhnacademy.edu.minidooray.accountapi.model.response.hasAccountResponse;
+import com.nhnacademy.edu.minidooray.accountapi.model.response.HasAccountResponse;
 import com.nhnacademy.edu.minidooray.accountapi.service.UserService;
 import javax.validation.Valid;
 import org.springframework.http.HttpStatus;
@@ -56,8 +56,8 @@ public class UserController {
     }
 
     @GetMapping("/accounts/{id}")
-    public hasAccountResponse hasAccount(@PathVariable("id") String id) {
-        return new hasAccountResponse(userService.getUser(id).isPresent());
+    public HasAccountResponse hasAccount(@PathVariable("id") String id) {
+        return new HasAccountResponse(userService.getUser(id).isPresent());
     }
 
     @ExceptionHandler(UserNotExistException.class)

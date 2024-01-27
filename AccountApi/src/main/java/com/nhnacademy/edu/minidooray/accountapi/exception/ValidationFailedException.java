@@ -1,4 +1,4 @@
-package com.nhnacademy.edu.minidooray.AccountApi.exception;
+package com.nhnacademy.edu.minidooray.accountapi.exception;
 
 import java.util.stream.Collectors;
 import org.springframework.validation.BindingResult;

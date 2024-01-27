@@ -1,4 +1,4 @@
-package com.nhnacademy.edu.minidooray.AccountApi;
+package com.nhnacademy.edu.minidooray.accountapi;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

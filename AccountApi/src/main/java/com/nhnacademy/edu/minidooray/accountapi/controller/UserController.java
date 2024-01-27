@@ -1,19 +1,15 @@
-package com.nhnacademy.edu.minidooray.AccountApi.controller;
+package com.nhnacademy.edu.minidooray.accountapi.controller;
 
 
-import com.nhnacademy.edu.minidooray.AccountApi.exception.UserAlreadyExsitException;
-import com.nhnacademy.edu.minidooray.AccountApi.exception.UserNotExistException;
-import com.nhnacademy.edu.minidooray.AccountApi.exception.ValidationFailedException;
-import com.nhnacademy.edu.minidooray.AccountApi.model.request.CreateUserRequest;
-import com.nhnacademy.edu.minidooray.AccountApi.model.request.LoginUserRequest;
-import com.nhnacademy.edu.minidooray.AccountApi.model.response.hasAccountResponse;
-import com.nhnacademy.edu.minidooray.AccountApi.service.UserService;
+import com.nhnacademy.edu.minidooray.accountapi.exception.ValidationFailedException;
+import com.nhnacademy.edu.minidooray.accountapi.model.request.CreateUserRequest;
+import com.nhnacademy.edu.minidooray.accountapi.model.request.LoginUserRequest;
+import com.nhnacademy.edu.minidooray.accountapi.model.response.HasAccountResponse;
+import com.nhnacademy.edu.minidooray.accountapi.service.UserService;
 import javax.validation.Valid;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -56,25 +52,8 @@ public class UserController {
     }
 
     @GetMapping("/accounts/{id}")
-    public hasAccountResponse hasAccount(@PathVariable("id") String id) {
-        return new hasAccountResponse(userService.getUser(id).isPresent());
+    public HasAccountResponse hasAccount(@PathVariable("id") String id) {
+        return new HasAccountResponse(userService.getUser(id).isPresent());
     }
 
-    @ExceptionHandler(UserNotExistException.class)
-    @ResponseStatus(HttpStatus.UNAUTHORIZED)
-    public ResponseEntity<String> handleUsernameNotFoundException(UserNotExistException e) {
-        return new ResponseEntity<>(e.getMessage(), HttpStatus.UNAUTHORIZED);
-    }
-
-    @ExceptionHandler(UserAlreadyExsitException.class)
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ResponseEntity<String> handleUserAlreadyExistException(UserAlreadyExsitException e) {
-        return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
-    }
-
-    @ExceptionHandler(ValidationFailedException.class)
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ResponseEntity<String> handleValidationFailedException(ValidationFailedException e) {
-        return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
-    }
 }

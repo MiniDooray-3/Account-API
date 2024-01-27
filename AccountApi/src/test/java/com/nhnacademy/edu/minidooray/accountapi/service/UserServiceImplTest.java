@@ -3,15 +3,16 @@ package com.nhnacademy.edu.minidooray.accountapi.service;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
 import com.nhnacademy.edu.minidooray.accountapi.domain.User;
+import com.nhnacademy.edu.minidooray.accountapi.exception.LoginFailedException;
 import com.nhnacademy.edu.minidooray.accountapi.exception.UserAlreadyExsitException;
 import com.nhnacademy.edu.minidooray.accountapi.exception.UserNotExistException;
 import com.nhnacademy.edu.minidooray.accountapi.model.request.CreateUserRequest;
 import com.nhnacademy.edu.minidooray.accountapi.model.request.LoginUserRequest;
+import com.nhnacademy.edu.minidooray.accountapi.model.response.UserResponse;
 import com.nhnacademy.edu.minidooray.accountapi.repository.UserRepository;
 import java.time.LocalDate;
 import java.util.List;
@@ -20,12 +21,10 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.MOCK)
-@AutoConfigureMockMvc
+@SpringBootTest
 class UserServiceImplTest {
 
     @MockBean
@@ -39,8 +38,7 @@ class UserServiceImplTest {
     void testLoginSuccess() {
         User test = new User("test", "test@test.com", "1234", "가입", null);
         given(userRepository.findByIdAndPasswordAndStatus("test", "1234", "가입")).willReturn(
-                Optional.of(test));
-        doNothing().when(userRepository).updateLastLoginDate(any(String.class), any(LocalDate.class));
+                Optional.of(new UserResponse("test")));
 
 
         userService.login(new LoginUserRequest("test", "1234"));
@@ -56,7 +54,7 @@ class UserServiceImplTest {
         LoginUserRequest loginUserRequest = new LoginUserRequest("test", "1234");
 
 
-        Assertions.assertThrows(UserNotExistException.class,
+        Assertions.assertThrows(LoginFailedException.class,
                 () -> userService.login(loginUserRequest));
     }
 
@@ -88,7 +86,6 @@ class UserServiceImplTest {
     void testDeleteUserSuccess() {
         User test = new User("test", "test@test.com", "1234", "가입", null);
         given(userRepository.findById("test")).willReturn(Optional.of(test));
-        doNothing().when(userRepository).updateUserStatus("test", "탈퇴");
 
         userService.deleteUser("test");
         verify(userRepository).findById("test");
@@ -107,11 +104,8 @@ class UserServiceImplTest {
     @Test
     @DisplayName("마지막 로그인날로부터 2년 이후 휴면 계정 전환")
     void testUpdateInactiveUserStatus() {
-        User test1 = new User("test", "test@test.com", "1234", "가입", null);
-        User test2 = new User("test", "test@test.com", "1234", "가입", null);
         given(userRepository.findByLastLoginBeforeAndStatus(any(LocalDate.class), any(String.class))).willReturn(
-                List.of(test1, test2));
-        doNothing().when(userRepository).updateUserStatus("test", "휴면");
+                List.of(new UserResponse("test1"), new UserResponse("test2")));
 
         userService.updateInactiveUserStatus();
         verify(userRepository, times(2)).updateUserStatus(any(String.class), any(String.class));

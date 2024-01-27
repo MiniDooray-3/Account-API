@@ -38,7 +38,7 @@ class WebControllerAdviceTest {
                 Optional.empty());
 
         mockMvc.perform(delete("/api/accounts/{id}", "test"))
-                .andExpect(status().isUnauthorized())
+                .andExpect(status().isBadRequest())
                 .andExpect(content().string(containsString("존재하지 않는 유저 입니다.")));
     }
 

@@ -4,7 +4,6 @@ import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.equalTo;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.verify;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -22,12 +21,12 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.MOCK)
+@WebMvcTest(UserController.class)
 @AutoConfigureMockMvc
 class UserControllerTest {
 
@@ -42,7 +41,6 @@ class UserControllerTest {
     void testLoginSuccess() throws Exception {
         ObjectMapper objectMapper = new ObjectMapper();
         LoginUserRequest loginUserRequest = new LoginUserRequest("test", "1234");
-        doNothing().when(userService).login(loginUserRequest);
 
         mockMvc.perform(post("/api/accounts/login")
                         .content(objectMapper.writeValueAsString(loginUserRequest))
@@ -73,7 +71,6 @@ class UserControllerTest {
     void testCreateUserSuccess() throws Exception {
         ObjectMapper objectMapper = new ObjectMapper();
         CreateUserRequest createUserRequest = new CreateUserRequest("test", "1234", "test@test.com");
-        doNothing().when(userService).createUser(createUserRequest);
 
         mockMvc.perform(post("/api/accounts/signup")
                         .content(objectMapper.writeValueAsString(createUserRequest))
@@ -101,7 +98,6 @@ class UserControllerTest {
     @Test
     @DisplayName("회원탈퇴")
     void testDeleteUserSuccess() throws Exception {
-        doNothing().when(userService).deleteUser(any(String.class));
 
         mockMvc.perform(delete("/api/accounts/{id}", "test"))
                 .andExpect(status().isOk());

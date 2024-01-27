@@ -1,8 +1,10 @@
 package com.nhnacademy.edu.minidooray.accountapi.model.response;
 
-import lombok.Value;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
 
-@Value
+@AllArgsConstructor
+@Getter
 public class HasAccountResponse {
-    private boolean hasAccount;
+    private final boolean hasAccount;
 }

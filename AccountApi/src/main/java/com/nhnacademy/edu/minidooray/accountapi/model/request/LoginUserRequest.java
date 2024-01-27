@@ -2,16 +2,18 @@ package com.nhnacademy.edu.minidooray.accountapi.model.request;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
-import lombok.Value;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
 
-@Value
+@AllArgsConstructor
+@Getter
 public class LoginUserRequest {
     @NotBlank
     @Size(max = 10)
-    private String userId;
+    private final String userId;
 
     @NotBlank
     @Size(min = 4, max = 20)
-    private String userPassword;
+    private final String userPassword;
 
 }

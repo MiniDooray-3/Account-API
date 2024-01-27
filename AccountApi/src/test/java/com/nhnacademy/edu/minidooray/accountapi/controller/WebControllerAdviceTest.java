@@ -8,6 +8,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.nhnacademy.edu.minidooray.accountapi.domain.User;
 import com.nhnacademy.edu.minidooray.accountapi.model.request.CreateUserRequest;
 import com.nhnacademy.edu.minidooray.accountapi.repository.UserRepository;
 import java.util.Optional;
@@ -45,14 +46,14 @@ class WebControllerAdviceTest {
     @DisplayName("UserAlreadyExist 발생시 BAD_REQUEST 반환 테스트")
     void handleUserAlreadyExistException() throws Exception {
         ObjectMapper objectMapper = new ObjectMapper();
-        CreateUserRequest createUserRequest = new CreateUserRequest("test", "123", "test@test.com");
+        CreateUserRequest createUserRequest = new CreateUserRequest("test", "1234", "test@test.com");
+        given(userRepository.findById("test")).willReturn(
+                Optional.of(new User("test", "test@test.com", "1234", "가입", null)));
 
         mockMvc.perform(post("/api/accounts/signup")
                         .content(objectMapper.writeValueAsString(createUserRequest))
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isBadRequest())
-                .andExpect(content().string(containsString("ObjectName=")))
-                .andExpect(content().string(containsString(",Message=")))
-                .andExpect(content().string(containsString(",code=")));
+                .andExpect(content().string(containsString("이미 존재하는 유저 입니다.")));
     }
 }

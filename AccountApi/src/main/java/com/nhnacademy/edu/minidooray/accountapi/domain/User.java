@@ -22,9 +22,11 @@ public class User {
 
     private String password;
 
+    @Getter
     private String status;
 
     @Column(name = "last_login")
+    @Getter
     private LocalDate lastLogin;
 
 }

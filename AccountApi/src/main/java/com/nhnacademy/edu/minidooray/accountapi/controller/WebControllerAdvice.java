@@ -13,9 +13,9 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 @ControllerAdvice
 public class WebControllerAdvice {
 
-    @ExceptionHandler(UserNotExistException.class)
+    @ExceptionHandler({UserNotExistException.class, UserAlreadyExsitException.class, ValidationFailedException.class})
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ResponseEntity<String> handleUsernameNotFoundException(UserNotExistException e) {
+    public ResponseEntity<String> handleUsernameNotFoundException(RuntimeException e) {
         return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
     }
 
@@ -25,15 +25,4 @@ public class WebControllerAdvice {
         return new ResponseEntity<>(e.getMessage(), HttpStatus.UNAUTHORIZED);
     }
 
-    @ExceptionHandler(UserAlreadyExsitException.class)
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ResponseEntity<String> handleUserAlreadyExistException(UserAlreadyExsitException e) {
-        return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
-    }
-
-    @ExceptionHandler(ValidationFailedException.class)
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ResponseEntity<String> handleValidationFailedException(ValidationFailedException e) {
-        return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
-    }
 }

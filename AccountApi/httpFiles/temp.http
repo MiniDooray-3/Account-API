@@ -1,0 +1,25 @@
+# 회원가입
+POST http://localhost:8082/api/accounts/signup
+Content-Type: application/json
+
+{
+  "id": "테스트999",
+  "password": "1234",
+  "email": "123@123.com"
+}
+
+###
+
+# 로그인
+POST http://localhost:8082/api/accounts/login
+Content-Type: application/json
+
+{
+  "userId": "테스트999",
+  "userPassword": "1234"
+}
+
+###
+
+# 회원 탈퇴
+DELETE http://localhost:8082/api/accounts/테스트
